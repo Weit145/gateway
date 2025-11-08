@@ -30,3 +30,4 @@ if __name__ == "__main__":
     # poetry run python app/main.py
     # docker compose up --build
     # git submodule add https://github.com/Weit145/proto-repo proto
+    # git submodule update --init --recursive

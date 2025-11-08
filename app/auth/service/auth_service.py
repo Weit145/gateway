@@ -35,6 +35,7 @@ class AuthService(IAuthService):
         )
         response = await self.stub.RegistrationUser(request)
         cookie_pb = response.cookie  # auth_pb2.Cookie
+        okey_pb = response.response
         return CookieResponse(
             access_token=response.access_token,
             key=cookie_pb.key,
@@ -43,9 +44,9 @@ class AuthService(IAuthService):
             secure=cookie_pb.secure,
             samesite=cookie_pb.samesite,
             max_age=cookie_pb.max_age,
-            success=response.response.success,
-            status_code = response.status_code,
-            error=response.response.error
+            success=okey_pb.success,
+            status_code=okey_pb.status_code,
+            error=okey_pb.error
         )
 
     
@@ -55,11 +56,12 @@ class AuthService(IAuthService):
         )
 
         response = await self.stub.RefreshToken(request)
+        okey_pb = response.response
         return AccessToken(
             access_token = response.access_token,
-            success = response.success,
-            status_code = response.status_code,
-            error = response.error
+            success = okey_pb.success,
+            status_code = okey_pb.status_code,
+            error = okey_pb.error
         )
     
     async def authenticate_user(self, user_login: UserLogin) -> CookieResponse:
@@ -69,6 +71,7 @@ class AuthService(IAuthService):
         )
         response = await self.stub.Authenticate(request)
         cookie_pb = response.cookie  # auth_pb2.Cookie
+        okey_pb = response.response
         return CookieResponse(
             access_token=response.access_token,
             key=cookie_pb.key,
@@ -77,9 +80,9 @@ class AuthService(IAuthService):
             secure=cookie_pb.secure,
             samesite=cookie_pb.samesite,
             max_age=cookie_pb.max_age,
-            success=response.response.success,
-            status_code = response.status_code,
-            error=response.response.error
+            success=okey_pb.success,
+            status_code=okey_pb.status_code,
+            error=okey_pb.error
         )
     
     async def current_user(self, user: UserBase) -> UserCurrent:
@@ -87,13 +90,14 @@ class AuthService(IAuthService):
             username = user.username,
         )
         response = await self.stub.CurrentUser(request)
+        okey_pb = response.response
         return UserCurrent(
             id = response.id,
             username = response.username,
             is_active = response.is_active,
             is_verified = response.is_verified,
             role = response.role,
-            success=response.response.success,
-            status_code = response.status_code,
-            error=response.response.error
+            success=okey_pb.success,
+            status_code = okey_pb.status_code,
+            error=okey_pb.error
         )
