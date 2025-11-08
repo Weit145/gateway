@@ -1,18 +1,24 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Cookie, Depends, status
+from fastapi import APIRouter, Cookie, status
 from fastapi.responses import JSONResponse
+from app.auth.gateway.auth_gateway import AuthGateWay
+from app.auth.utils.schemas import (
+    Token,
+    UserLogin,
+)
 
 router = APIRouter()
 
 @router.get("/refresh/", status_code=status.HTTP_200_OK)
 async def refresh_access_token_end_point(
     refresh_token: Annotated[str,Cookie(...)]
-)->None:
-    return
+)->Token:
+    return await AuthGateWay().refresh_token(refresh_token)
+
 
 @router.post("/token/", status_code=status.HTTP_200_OK)
 async def authenticate_user_end_point(
-    user: str,
-) -> None:
-    return 
+    user_login: UserLogin,
+) -> JSONResponse:
+    return await AuthGateWay().authenticate_user(user_login)

@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.user import router as user_router
-from app.profile import router as profile_router
 from app.post import router as post_router
 from app.auth import router as auth_router
 from app.admin import router as admin_router
@@ -19,7 +18,6 @@ app.add_middleware(
 )
 
 app.include_router(user_router,prefix="/user", tags=["User"])
-app.include_router(profile_router,prefix="/profile", tags=["Profile"])
 app.include_router(post_router,prefix="/post", tags=["Post"])
 app.include_router(auth_router,prefix="/auth", tags=["Auth"])
 app.include_router(admin_router,prefix="/admin", tags=["Admin"])
@@ -31,3 +29,4 @@ if __name__ == "__main__":
 
     # poetry run python app/main.py
     # docker compose up --build
+    # git submodule add https://github.com/Weit145/proto-repo proto

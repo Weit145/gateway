@@ -1,14 +1,46 @@
 from typing import Annotated
 
 from annotated_types import MaxLen, MinLen
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel, EmailStr
 
 
 class UserBase(BaseModel):
     username: Annotated[str, MinLen(4), MaxLen(32)]
 
 
+class Cookie(BaseModel):
+    key:str
+    value:str
+    httponly:bool
+    secure:bool
+    samesite:str
+    max_age:int
+
+class UserCreate(UserBase):
+    email:str
+    password:str
+
+class UserLogin(UserBase):
+    password:str
+
 class Token(BaseModel):
     access_token: str
-    token_type: str
+
+class Okey(BaseModel):
+    success:bool
+    status_code:int
+    error:str
+
+class CookieResponse(Cookie,Okey):
+    access_token:str
+
+class AccessToken(Token,Okey):
+    pass
+
+class UserCurrent(Okey):
+    id:int
+    username:str
+    is_active:bool
+    is_verified:bool
+    role:str
 
