@@ -31,3 +31,5 @@ if __name__ == "__main__":
     # docker compose up --build
     # git submodule add https://github.com/Weit145/proto-repo proto
     # git submodule update --init --recursive
+
+    # poetry run python -m grpc_tools.protoc     -I proto     --python_out=proto     --grpc_python_out=proto     proto/auth.proto
