@@ -1,4 +1,6 @@
 import uvicorn
+import asyncio
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -6,6 +8,8 @@ from app.user import router as user_router
 from app.post import router as post_router
 from app.auth import router as auth_router
 from app.admin import router as admin_router
+
+
 
 app = FastAPI()
 
@@ -32,4 +36,8 @@ if __name__ == "__main__":
     # git submodule add https://github.com/Weit145/proto-repo proto
     # git submodule update --init --recursive
 
-    # poetry run python -m grpc_tools.protoc     -I proto     --python_out=proto     --grpc_python_out=proto     proto/auth.proto
+    #poetry run python -m grpc_tools.protoc     -I proto     --python_out=proto     --grpc_python_out=proto     proto/auth.proto 
+
+    # docker compose exec auth-service /bin/sh
+    # # внутри контейнера
+    # alembic upgrade head

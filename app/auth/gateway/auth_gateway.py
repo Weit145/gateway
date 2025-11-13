@@ -1,6 +1,6 @@
 from fastapi.responses import JSONResponse
 from app.auth.gateway.iauth_gateway import IAuthGateWay
-from app.auth.service.auth_service import AuthService
+from app.auth.grpc.auth_service import AuthService
 from app.auth.utils.schemas import(
     UserCreate,
     Token,

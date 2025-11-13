@@ -1,7 +1,7 @@
 import grpc
 from proto import auth_pb2, auth_pb2_grpc
 
-from app.auth.service.iauth_service import IAuthService
+from app.auth.grpc.iauth_service import IAuthService
 from app.auth.utils.schemas import (
     UserCreate,
     Okey,
@@ -16,7 +16,7 @@ from app.auth.utils.schemas import (
 
 class AuthService(IAuthService):
 
-    def __init__(self, host: str = "localhost", port: int = 50051) -> None:
+    def __init__(self, host: str = "auth-service", port: int = 50051) -> None:
         self.channel = grpc.aio.insecure_channel(f"{host}:{port}")
         self.stub = auth_pb2_grpc.AuthStub(self.channel)
 
@@ -91,3 +91,14 @@ class AuthService(IAuthService):
             status_code=response.response.status_code,
             error=response.response.error
         )
+    
+#     import grpc
+# from proto import auth_pb2, auth_pb2_grpc
+
+# async def serve():
+#     server = grpc.aio.server()
+#     auth_pb2_grpc.add_AuthServicer_to_server(AuthService(), server)
+#     server.add_insecure_port('[::]:50051')
+#     print("gRPC сервер запущен на порту 50051...")
+#     await server.start()
+#     await server.wait_for_termination()
