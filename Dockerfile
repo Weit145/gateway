@@ -18,7 +18,8 @@ RUN poetry config virtualenvs.create false && poetry install --no-root
 COPY gateway/app ./app
 
 # Копируем proto из auth-service
-COPY auth-service/proto ./proto
+COPY gateway/proto ./proto
 
+ENV PYTHONPATH="${PYTHONPATH}:/app/proto"
 # Запуск FastAPI
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
