@@ -1,8 +1,109 @@
+from proto import auth_pb2
+
 from fastapi.responses import JSONResponse
+
 from app.auth.utils.schemas import(
     CookieResponse,
-
+    UserCreate,
+    Okey,
+    Token,
+    CookieResponse,
+    AccessToken,
+    UserLogin,
+    UserCurrent,
 )
+
+
+
+def convert_user_create_request(
+    user: UserCreate,
+    )->auth_pb2.UserCreateRequest:
+    return auth_pb2.UserCreateRequest(
+        username=user.username,
+        email=user.email,
+        password=user.password
+    )
+
+def convert_token_request(
+    token: Token,
+)->auth_pb2.TokenRequest:
+    return auth_pb2.TokenRequest(token_pod=token.access_token)
+
+def convert_cookie_request(
+    refresh_token:str,
+)->auth_pb2.CookieRequest:
+    return auth_pb2.CookieRequest(refresh_token=refresh_token)
+
+def convert_user_login_request(
+    user:UserLogin,
+)->auth_pb2.UserLoginRequest:
+    return auth_pb2.UserLoginRequest(
+            username=user.username,
+            password=user.password
+        )
+
+def convert_user_current_request(
+    username:str,
+)->auth_pb2.UserCurrentRequest:
+    return auth_pb2.UserCurrentRequest(
+        username=username,
+    )
+
+
+
+
+def convert_okey_response(
+    response
+)->Okey:
+    return Okey(
+        success=response.success,
+        status_code=response.status_code,
+        error=response.error,
+    )
+
+def convert_cookie_response(
+    response
+)->CookieResponse:
+    return CookieResponse(
+        access_token=response.access_token,
+        key=response.cookie.key,
+        value=response.cookie.value,
+        httponly=response.cookie.httponly,
+        secure=response.cookie.secure,
+        samesite=response.cookie.samesite,
+        max_age=response.cookie.max_age,
+        success=response.response.success,
+        status_code=response.response.status_code,
+        error=response.response.error
+    )
+
+def convert_access_token_response(
+    response
+)->AccessToken:
+    return AccessToken(
+        access_token=response.access_token,
+        success=response.response.success,
+        status_code=response.response.status_code,
+        error=response.response.error
+    )
+
+def convert_user_current_response(
+    response
+)->UserCurrent:
+    return UserCurrent(
+        id=response.id,
+        username=response.username,
+        is_active=response.is_active,
+        is_verified=response.is_verified,
+        role=response.role,
+        success=response.response.success,
+        status_code=response.response.status_code,
+        error=response.response.error
+    )
+
+
+
+
 
 def converter_cookie(response:CookieResponse)->JSONResponse:
     result = JSONResponse(content={"access_token": response.access_token})
