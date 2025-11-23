@@ -1,0 +1,54 @@
+gateway/
+├── app/
+│   ├── auth/
+│   │   ├── __init__.py
+│   │   ├── gateway/
+│   │   │   ├── auth_gateway.py
+│   │   │   └── iauth_gateway.py
+│   │   ├── grpc/
+│   │   │   ├── auth_service.py
+│   │   │   └── iauth_service.py
+│   │   ├── router/
+│   │   │   ├── auth.py
+│   │   │   └── registration.py
+│   │   └── utils/
+│   │       ├── check.py
+│   │       ├── converter.py
+│   │       └── schemas.py
+│   │
+│   ├── user/
+│   │   ├── __init__.py
+│   │   ├── router/
+│   │   │   └── user.py
+│   │   └── utils/
+│   │       ├── converter.py
+│   │       └── schemas.py
+│   │
+│   ├── post/
+│   │   ├── __init__.py
+│   │   ├── router/
+│   │   │   └── post.py
+│   │   └── utils/
+│   │       ├── converter.py
+│   │       └── schemas.py
+│   │
+│   ├── admin/
+│   │   ├── __init__.py
+│   │   └── router/
+│   │       ├── user.py
+│   │       ├── post.py
+│   │       └── profile.py
+│   │
+│   ├── main.py
+│   └── __init__.py
+│
+├── proto/
+│   ├── __init__.py
+│   ├── auth.proto
+│   ├── auth_pb2.py
+│   └── auth_pb2_grpc.py
+│
+├── Dockerfile
+├── docker-compose.yml
+├── pyproject.toml
+└── README.md

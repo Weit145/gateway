@@ -1,0 +1,116 @@
+gateway/
+├── app/
+│   ├── domain/
+│   │   ├── __init__.py
+│   │   ├── entities/
+│   │   │   ├── __init__.py
+│   │   │   ├── user.py
+│   │   │   └── post.py
+│   │   ├── value_objects/
+│   │   │   ├── __init__.py
+│   │   │   ├── email.py
+│   │   │   └── username.py
+│   │   ├── events/
+│   │   │   ├── __init__.py
+│   │   │   ├── user_events.py
+│   │   │   └── post_events.py
+│   │   ├── repositories/
+│   │   │   ├── __init__.py
+│   │   │   ├── iuser_repository.py
+│   │   │   └── ipost_repository.py
+│   │   └── exceptions.py
+│   │
+│   ├── application/
+│   │   ├── __init__.py
+│   │   ├── auth/
+│   │   │   ├── __init__.py
+│   │   │   ├── dtos/
+│   │   │   │   ├── inputs.py
+│   │   │   │   └── outputs.py
+│   │   │   └── services/
+│   │   │       ├── authenticate_service.py
+│   │   │       └── register_service.py
+│   │   ├── user/
+│   │   │   ├── __init__.py
+│   │   │   ├── dtos/
+│   │   │   │   ├── inputs.py
+│   │   │   │   └── outputs.py
+│   │   │   └── services/
+│   │   │       ├── get_user_service.py
+│   │   │       ├── update_user_service.py
+│   │   │       └── delete_user_service.py
+│   │   ├── post/
+│   │   │   ├── __init__.py
+│   │   │   ├── dtos/
+│   │   │   │   ├── inputs.py
+│   │   │   │   └── outputs.py
+│   │   │   └── services/
+│   │   │       ├── create_post_service.py
+│   │   │       ├── get_post_service.py
+│   │   │       └── delete_post_service.py
+│   │   └── event_handlers/
+│   │       ├── __init__.py
+│   │       ├── user_event_handler.py
+│   │       └── post_event_handler.py
+│   │
+│   ├── infrastructure/
+│   │   ├── __init__.py
+│   │   ├── grpc_clients/
+│   │   │   ├── __init__.py
+│   │   │   ├── auth_client.py
+│   │   │   └── other_services_client.py
+│   │   ├── http_clients/
+│   │   │   ├── __init__.py
+│   │   │   └── external_apis.py
+│   │   └── kafka_helper.py
+│   │
+│   ├── presentation/
+│   │   ├── __init__.py
+│   │   ├── api/
+│   │   │   ├── __init__.py
+│   │   │   ├── auth/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── routes.py
+│   │   │   │   └── dependencies.py
+│   │   │   ├── user/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── routes.py
+│   │   │   │   └── dependencies.py
+│   │   │   ├── post/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── routes.py
+│   │   │   │   └── dependencies.py
+│   │   │   └── admin/
+│   │   │       ├── __init__.py
+│   │   │       ├── routes.py
+│   │   │       └── dependencies.py
+│   │   └── mappers/
+│   │       ├── __init__.py
+│   │       ├── user_mapper.py
+│   │       ├── post_mapper.py
+│   │       └── auth_mapper.py
+│   │
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   │   └── security.py
+│   │
+│   └── main.py
+│
+├── proto/
+│   ├── __init__.py
+│   ├── auth.proto
+│   ├── auth_pb2.py
+│   └── auth_pb2_grpc.py
+│
+├── tests/
+│   ├── __init__.py
+│   ├── domain/
+│   ├── application/
+│   ├── infrastructure/
+│   └── presentation/
+│
+├── Dockerfile
+├── docker-compose.yml
+├── pyproject.toml
+└── README.md
