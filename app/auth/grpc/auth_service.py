@@ -52,7 +52,7 @@ class AuthService(IAuthService):
         return convert_cookie_response(response)
 
     async def current_user(self, user: UserBase) -> UserCurrent:
-        request = convert_user_current_request(user.username)
+        request = convert_user_current_request(user.login)
         response = await self.stub.CurrentUser(request)
         return convert_user_current_response(response)
     

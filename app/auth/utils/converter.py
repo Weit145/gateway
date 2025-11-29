@@ -19,6 +19,7 @@ def convert_user_create_request(
     user: UserCreate,
     )->auth_pb2.UserCreateRequest:
     return auth_pb2.UserCreateRequest(
+        login=user.login,
         username=user.username,
         email=user.email,
         password=user.password
@@ -38,15 +39,15 @@ def convert_user_login_request(
     user:UserLogin,
 )->auth_pb2.UserLoginRequest:
     return auth_pb2.UserLoginRequest(
-            username=user.username,
+            login=user.login,
             password=user.password
         )
 
 def convert_user_current_request(
-    username:str,
+    login:str,
 )->auth_pb2.UserCurrentRequest:
     return auth_pb2.UserCurrentRequest(
-        username=username,
+        login=login,
     )
 
 
@@ -92,7 +93,7 @@ def convert_user_current_response(
 )->UserCurrent:
     return UserCurrent(
         id=response.id,
-        username=response.username,
+        login=response.login,
         is_active=response.is_active,
         is_verified=response.is_verified,
         role=response.role,

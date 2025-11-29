@@ -4,8 +4,9 @@ from annotated_types import MaxLen, MinLen
 from pydantic import BaseModel, EmailStr
 
 
+
 class UserBase(BaseModel):
-    username: Annotated[str, MinLen(4), MaxLen(32)]
+    login: Annotated[str, MinLen(4), MaxLen(32)]
 
 
 class Cookie(BaseModel):
@@ -17,6 +18,7 @@ class Cookie(BaseModel):
     max_age:int
 
 class UserCreate(UserBase):
+    username: Annotated[str, MinLen(4), MaxLen(32)]
     email:str
     password:str
 
