@@ -40,3 +40,6 @@ if __name__ == "__main__":
     # docker compose exec auth-service /bin/sh
     # # внутри контейнера
     # alembic upgrade head
+
+    # docker exec -it kafka bash
+    # kafka-console-consumer --bootstrap-server localhost:9092 --topic registration
