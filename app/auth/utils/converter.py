@@ -58,8 +58,6 @@ def convert_okey_response(
 )->Okey:
     return Okey(
         success=response.success,
-        status_code=response.status_code,
-        error=response.error,
     )
 
 def convert_cookie_response(
@@ -73,9 +71,6 @@ def convert_cookie_response(
         secure=response.cookie.secure,
         samesite=response.cookie.samesite,
         max_age=response.cookie.max_age,
-        success=response.response.success,
-        status_code=response.response.status_code,
-        error=response.response.error
     )
 
 def convert_access_token_response(
@@ -83,9 +78,6 @@ def convert_access_token_response(
 )->AccessToken:
     return AccessToken(
         access_token=response.access_token,
-        success=response.response.success,
-        status_code=response.response.status_code,
-        error=response.response.error
     )
 
 def convert_user_current_response(
@@ -97,9 +89,6 @@ def convert_user_current_response(
         is_active=response.is_active,
         is_verified=response.is_verified,
         role=response.role,
-        success=response.response.success,
-        status_code=response.response.status_code,
-        error=response.response.error
     )
 
 

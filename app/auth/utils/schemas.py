@@ -30,16 +30,15 @@ class Token(BaseModel):
 
 class Okey(BaseModel):
     success:bool
-    status_code:int
-    error:str
 
-class CookieResponse(Cookie,Okey):
+
+class CookieResponse(Cookie):
     access_token:str
 
-class AccessToken(Token,Okey):
+class AccessToken(Token):
     pass
 
-class UserCurrent(Okey):
+class UserCurrent(BaseModel):
     id:int
     login:str
     is_active:bool
