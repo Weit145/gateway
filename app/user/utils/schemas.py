@@ -8,6 +8,9 @@ class UserBase(BaseModel):
     username: Annotated[str, MinLen(6), MaxLen(32)]
 
 
+class UserUpdate(UserBase):
+    pass
+
 class OutUser(UserBase):
     pass
 

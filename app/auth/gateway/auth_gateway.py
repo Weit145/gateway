@@ -10,7 +10,7 @@ from app.auth.utils.schemas import(
     UserBase,
     UserCurrent,
 )
-from app.auth.utils.check import(
+from app.utils.check import(
     check_code,
 )
 from app.auth.utils.converter import(
