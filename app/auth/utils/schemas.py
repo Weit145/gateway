@@ -41,7 +41,7 @@ class AccessToken(Token,Okey):
 
 class UserCurrent(Okey):
     id:int
-    username:str
+    login:str
     is_active:bool
     is_verified:bool
     role:str
