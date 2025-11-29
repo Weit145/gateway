@@ -34,5 +34,5 @@ class IAuthService(ABC):
         pass
 
     @abstractmethod
-    async def current_user(self,user:UserBase)->UserCurrent:
+    async def current_user(self,token:str)->UserCurrent:
         pass

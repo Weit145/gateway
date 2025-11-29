@@ -4,11 +4,9 @@ from annotated_types import MaxLen, MinLen
 from pydantic import BaseModel, ConfigDict, EmailStr
 
 
-class UserBase(BaseModel):
-    username: Annotated[str, MinLen(6), MaxLen(32)]
-
-
-class OutUser(UserBase):
-    pass
-
-
+class UserCurrent(BaseModel):
+    id:int
+    login:str
+    is_active:bool
+    is_verified:bool
+    role:str

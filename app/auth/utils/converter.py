@@ -44,10 +44,10 @@ def convert_user_login_request(
         )
 
 def convert_user_current_request(
-    login:str,
+    token:str,
 )->auth_pb2.UserCurrentRequest:
     return auth_pb2.UserCurrentRequest(
-        login=login,
+        access_token=token,
     )
 
 

@@ -41,7 +41,7 @@ class AuthGateWay(IAuthGateWay):
         response_ready = converter_cookie(response)
         return response_ready
     
-    async def current_user(self, user: UserBase) -> UserCurrent:
-        response = await AuthService().current_user(user)
+    async def current_user(self, token: str) -> UserCurrent:
+        response = await AuthService().current_user(token)
         check_response(response)
         return response
