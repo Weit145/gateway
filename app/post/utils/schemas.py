@@ -15,6 +15,6 @@ class UpdatePost(PostBase):
 
 
 class OutPost(PostBase):
-    name_img: str
-    user_name: str
+    username: str
     id: int
+    
