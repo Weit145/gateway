@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class UserBase(BaseModel):
-    username: Annotated[str, MinLen(6), MaxLen(32)]
+    username: Annotated[str, MinLen(4), MaxLen(32)]
 
 
 class UserUpdate(UserBase):

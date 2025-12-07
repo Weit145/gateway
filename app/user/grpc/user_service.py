@@ -16,13 +16,13 @@ from app.user.utils.converter import(
 
 class UserService(IUserService):
 
-    def __init__(self, host: str = "auth-service", port: int = 50052) -> None:
+    def __init__(self, host: str = "user-service", port: int = 50053) -> None:
         self.channel = grpc.aio.insecure_channel(f"{host}:{port}")
         self.stub = user_pb2_grpc.UserStub(self.channel)
 
     async def delete_me_user_end_point(self, current_user: UserCurrent) -> None:
         request = converter_user_delete_request(current_user)
-        response = await self.stub.DeleteUser(request)
+        await self.stub.DeleteUser(request)
 
     async def read_me_user_end_point(self, current_user: UserCurrent) -> OutUser:
         request = converter_user_get_request(current_user)
