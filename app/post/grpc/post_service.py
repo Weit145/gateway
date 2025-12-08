@@ -37,8 +37,8 @@ class PostService(IPostService):
         request = converter_user_delete_request(current_user, post_id)
         response = await self.stub.DeletePost(request)
 
-    async def get_posts_end_point(self, group_post_id: int) -> list[OutPost]:
-        request = converter_user_get_posts_request(group_post_id)
+    async def get_posts_end_point(self, limit: int, last_id:int) -> list[OutPost]:
+        request = converter_user_get_posts_request(limit, last_id)
         response = await self.stub.GetGroupPost(request)
         return converter_list_OutPost(response)
 
@@ -49,7 +49,7 @@ class PostService(IPostService):
     
     async def get_by_username_post_end_point(self, username: str) -> list[OutPost]:
         request = converter_user_get_by_auth_request(username)
-        response = await self.stub.GetByAuthPost(request)
+        response = await self.stub.GetByUsernamePost(request)
         return converter_list_OutPost(response)
 
     async def update_post_end_point(self, current_user: UserCurrent, post_id: int, updated_post: UpdatePost) -> OutPost:

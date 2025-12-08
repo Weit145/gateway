@@ -29,10 +29,12 @@ def converter_user_delete_request(
     )
 
 def converter_user_get_posts_request(
-    group_post_id: int,
+    limit: int,
+    last_id:int,
 )->user_pb2.PostGetGroupRequest:
     return user_pb2.PostGetGroupRequest(
-        group_id=group_post_id,
+        limit=limit,
+        last_id=last_id,
     )
 
 def converter_user_get_by_id_request(

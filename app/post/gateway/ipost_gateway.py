@@ -1,17 +1,9 @@
 from abc import ABC, abstractmethod
 
-from app.post.utils.schemas import(
-    OutPost,
-    CreatePost,
-    UpdatePost,
-)
+from app.post.utils.schemas import OutPost, CreatePost, UpdatePost
 from app.utils.schemas import UserCurrent
 
-class IPostService(ABC):
-
-    @abstractmethod
-    def __init__(self, host: str, port: int) -> None:
-        pass
+class IPostGateWay(ABC):
 
     @abstractmethod
     async def create_post_end_point(self, current_user: UserCurrent, new_post: CreatePost) -> OutPost:
