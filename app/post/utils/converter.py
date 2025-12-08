@@ -1,4 +1,4 @@
-from proto import user_pb2
+from proto import post_pb2
 from app.utils.schemas import(
     UserCurrent,
 )
@@ -12,18 +12,18 @@ from app.post.utils.schemas import (
 def converter_user_create_request(
     current_user: UserCurrent,
     new_post: CreatePost,
-)->user_pb2.PostCreateRequest:
-    return user_pb2.PostCreateRequest(
-        author_id=current_user.id,
+)->post_pb2.PostCreateRequest:
+    return post_pb2.PostCreateRequest(
+        auth_id=current_user.id,
         title=new_post.title,
-        content=new_post.body,
+        body=new_post.body,
     )
 
 def converter_user_delete_request(
     current_user: UserCurrent,
     post_id: int,
-)->user_pb2.PostDeleteRequest:
-    return user_pb2.PostDeleteRequest(
+)->post_pb2.PostDeleteRequest:
+    return post_pb2.PostDeleteRequest(
         auth_id=current_user.id,
         post_id=post_id,
     )
@@ -31,23 +31,23 @@ def converter_user_delete_request(
 def converter_user_get_posts_request(
     limit: int,
     last_id:int,
-)->user_pb2.PostGetGroupRequest:
-    return user_pb2.PostGetGroupRequest(
+)->post_pb2.PostGetGroupRequest:
+    return post_pb2.PostGetGroupRequest(
         limit=limit,
         last_id=last_id,
     )
 
 def converter_user_get_by_id_request(
     post_id: int,
-)->user_pb2.PostGetByIdRequest:
-    return user_pb2.PostGetByIdRequest(
+)->post_pb2.PostGetByIdRequest:
+    return post_pb2.PostGetByIdRequest(
         post_id=post_id,
     )
 
 def converter_user_get_by_auth_request(
     username: str,
-)->user_pb2.PostGetByUsernameRequest:
-    return user_pb2.PostGetByUsernameRequest(
+)->post_pb2.PostGetByUsernameRequest:
+    return post_pb2.PostGetByUsernameRequest(
         username=username,
     )
 
@@ -55,12 +55,12 @@ def converter_user_update_request(
     current_user: UserCurrent,
     post_id: int,
     updated_post: UpdatePost,
-)->user_pb2.PostPutRequest:
-    return user_pb2.PostPutRequest(
+)->post_pb2.PostPutRequest:
+    return post_pb2.PostPutRequest(
         auth_id=current_user.id,
         post_id=post_id,
         title=updated_post.title,
-        content=updated_post.body,
+        body=updated_post.body,
     )
 
 
@@ -83,4 +83,4 @@ def converter_OutPost(
 def converter_list_OutPost(
     responses,
 )->list[OutPost]:
-    return [converter_OutPost(response) for response in responses]
+    return [converter_OutPost(post) for post in responses.posts]

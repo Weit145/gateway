@@ -26,6 +26,11 @@ async def delete_postdb_by_id_end_point(
 ) -> None:
     return await PostGateWay().delete_postdb_by_id_end_point(current_user, post_id)
 
+@router.get("/user/", status_code=status.HTTP_200_OK)
+async def get_by_username_post_end_point(
+    username: str = Query(..., title="Username"),
+) -> list[OutPost]:
+    return await PostGateWay().get_by_username_post_end_point(username)
 
 @router.get("/{group_post_id}/", status_code=status.HTTP_200_OK)
 async def get_posts_end_point(
@@ -40,12 +45,6 @@ async def get_by_id_post_end_point(
     post_id: int = Path(title="The ID of the post to get"),
 ) -> OutPost:
     return await PostGateWay().get_by_id_post_end_point(post_id)
-
-@router.get("/user/", status_code=status.HTTP_200_OK)
-async def get_by_username_post_end_point(
-    username: str = Query(..., title="Username"),
-) -> list[OutPost]:
-    return await PostGateWay().get_by_username_post_end_point(username)
 
 
 @router.put("/{post_id}/", status_code=status.HTTP_200_OK)
