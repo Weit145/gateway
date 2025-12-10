@@ -61,3 +61,11 @@ class AuthGateWay(IAuthGateWay):
             raise HTTPException(status_code=check_code(e.code), 
                             detail=e.details())
         return response
+    
+    async def logout_user(self,token: str)->None:
+        try:
+            response = await AuthService().logout_user(token)
+        except grpc.RpcError as e:
+            raise HTTPException(status_code=check_code(e.code), 
+                            detail=e.details())
+        return response

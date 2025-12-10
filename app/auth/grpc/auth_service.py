@@ -16,6 +16,7 @@ from app.auth.utils.converter import (
     convert_user_create_request,
     convert_okey_response,
     convert_token_request,
+    convert_token_asset_str_request,
     convert_cookie_response,
     convert_cookie_request,
     convert_access_token_response,
@@ -56,3 +57,8 @@ class AuthService(IAuthService):
         response = await self.stub.CurrentUser(request)
         return convert_user_current_response(response)
     
+    async def logout_user(self,token: str)->None:
+        request = convert_token_asset_str_request(token)
+        response = await self.stub.LogOutUser(request)
+        print("grpc",flush=True)
+        return

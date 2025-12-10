@@ -30,6 +30,11 @@ def convert_token_request(
 )->auth_pb2.TokenRequest:
     return auth_pb2.TokenRequest(token_pod=token.access_token)
 
+def convert_token_asset_str_request(
+    token:str
+)->auth_pb2.TokenRequest:
+    return auth_pb2.TokenRequest(token_pod=token)
+
 def convert_cookie_request(
     refresh_token:str,
 )->auth_pb2.CookieRequest:
