@@ -32,7 +32,7 @@ async def get_by_username_post_end_point(
 ) -> list[OutPost]:
     return await PostGateWay().get_by_username_post_end_point(username)
 
-@router.get("/{group_post_id}/", status_code=status.HTTP_200_OK)
+@router.get("/group/", status_code=status.HTTP_200_OK)
 async def get_posts_end_point(
     limit: int = Query(5),
     last_id: int = Query(0),
