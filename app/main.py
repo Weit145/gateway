@@ -1,7 +1,10 @@
 import uvicorn
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+
+from app.core.redis.redis import RedisRepository
 
 from app.user import router as user_router
 from app.post import router as post_router
@@ -19,6 +22,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def rate_limit_middleware(request: Request, call_next):
+    allowed = await RedisRepository().rate_limit(request)
+    if not allowed:
+        return JSONResponse(status_code=429, content={"detail": "Too many requests"})
+    return await call_next(request)
+
 
 app.include_router(user_router,prefix="/user", tags=["User"])
 app.include_router(post_router,prefix="/post", tags=["Post"])
