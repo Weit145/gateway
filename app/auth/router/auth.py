@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Cookie, status, Depends
+from fastapi import APIRouter, Cookie, status, Depends, Response
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm,OAuth2PasswordBearer
 
@@ -36,7 +36,12 @@ async def authenticate_user_end_point(
 
 @router.get("/logout/",status_code=status.HTTP_200_OK)
 async def logout_user_end_point(
+    response: Response,
     access_token: Annotated[str, Depends(oauth2_scheme)],
 )->None:
     print(access_token,flush=True)
-    return await AuthGateWay().logout_user(access_token)
+    await AuthGateWay().logout_user(access_token)
+    response.delete_cookie(
+        key="refresh_token",        
+    )
+    return
