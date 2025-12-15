@@ -4,7 +4,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.core.redis.redis import RedisRepository
+from app.core.redis.repositories.redis_repositories import RedisRepository
 
 from app.user import router as user_router
 from app.post import router as post_router
