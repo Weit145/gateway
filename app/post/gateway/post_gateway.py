@@ -45,9 +45,9 @@ class PostGateWay(IPostGateWay):
                             detail=e.details())
         return response
     
-    async def get_by_username_post_end_point(self, username: str) -> list[OutPost]:
+    async def get_by_username_post_end_point(self, username: str, id:int) -> list[OutPost]:
         try:
-            response = await PostService().get_by_username_post_end_point(username)
+            response = await PostService().get_by_username_post_end_point(username,id)
         except grpc.RpcError as e:
             raise HTTPException(status_code=check_code(e.code), 
                             detail=e.details())

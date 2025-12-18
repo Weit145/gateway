@@ -47,8 +47,8 @@ class PostService(IPostService):
         response = await self.stub.GetByIdPost(request)
         return converter_OutPost(response)
     
-    async def get_by_username_post_end_point(self, username: str) -> list[OutPost]:
-        request = converter_user_get_by_auth_request(username)
+    async def get_by_username_post_end_point(self, username: str, id) -> list[OutPost]:
+        request = converter_user_get_by_auth_request(username,id)
         response = await self.stub.GetByUsernamePost(request)
         return converter_list_OutPost(response)
 

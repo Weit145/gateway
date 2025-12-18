@@ -22,7 +22,7 @@ class IPostGateWay(ABC):
         pass
 
     @abstractmethod
-    async def get_by_username_post_end_point(self, username: str) -> list[OutPost]:
+    async def get_by_username_post_end_point(self, username: str, id :int) -> list[OutPost]:
         pass
 
     @abstractmethod

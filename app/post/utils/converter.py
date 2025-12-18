@@ -46,9 +46,11 @@ def converter_user_get_by_id_request(
 
 def converter_user_get_by_auth_request(
     username: str,
+    id: int,
 )->post_pb2.PostGetByUsernameRequest:
     return post_pb2.PostGetByUsernameRequest(
         username=username,
+        auth_id = id,
     )
 
 def converter_user_update_request(
