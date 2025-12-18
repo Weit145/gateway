@@ -1,17 +1,10 @@
-from proto import auth_pb2
+from app.auth.utils.schemas import UserCurrent as auth_UserCurrent
+from app.utils.schemas import UserCurrent
 
-from fastapi.responses import JSONResponse
-
-from app.auth.utils.schemas import(
-    UserCurrent as auth_UserCurrent
-)
-from app.utils.schemas import(
-    UserCurrent
-)
 
 def converter_UserCurrent(
     response: auth_UserCurrent,
-)->UserCurrent:
+) -> UserCurrent:
     return UserCurrent(
         id=response.id,
         login=response.login,

@@ -2,12 +2,13 @@ from fastapi import APIRouter, Query, status
 from fastapi.responses import JSONResponse
 from app.auth.gateway.auth_gateway import AuthGateWay
 
-from app.auth.utils.schemas import(
+from app.auth.utils.schemas import (
     UserCreate,
     Token,
 )
 
 router = APIRouter(prefix="/registration")
+
 
 @router.post("/", status_code=status.HTTP_200_OK)
 async def create_user_end_point(
@@ -17,8 +18,8 @@ async def create_user_end_point(
     return {"message": "Email send"}
 
 
-@router.get("/confirm/",status_code=status.HTTP_200_OK)
+@router.get("/confirm/", status_code=status.HTTP_200_OK)
 async def registration_confirmation_end_point(
     token_pod: str = Query(..., description="Токен подтверждения регистрации"),
-)->JSONResponse:
+) -> JSONResponse:
     return await AuthGateWay().registration_user(Token(access_token=token_pod))

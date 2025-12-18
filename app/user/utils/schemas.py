@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from annotated_types import MaxLen, MinLen
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel
 
 
 class UserBase(BaseModel):
@@ -11,7 +11,6 @@ class UserBase(BaseModel):
 class UserUpdate(UserBase):
     pass
 
+
 class OutUser(UserBase):
     pass
-
-

@@ -1,5 +1,5 @@
 import grpc
-from proto import auth_pb2, auth_pb2_grpc
+from proto import auth_pb2_grpc
 
 from app.auth.grpc.iauth_service import IAuthService
 from app.auth.utils.schemas import (
@@ -9,7 +9,6 @@ from app.auth.utils.schemas import (
     CookieResponse,
     AccessToken,
     UserLogin,
-    UserBase,
     UserCurrent,
 )
 from app.auth.utils.converter import (
@@ -27,7 +26,6 @@ from app.auth.utils.converter import (
 
 
 class AuthService(IAuthService):
-
     def __init__(self, host: str = "auth-service", port: int = 50051) -> None:
         self.channel = grpc.aio.insecure_channel(f"{host}:{port}")
         self.stub = auth_pb2_grpc.AuthStub(self.channel)
@@ -56,9 +54,9 @@ class AuthService(IAuthService):
         request = convert_user_current_request(token)
         response = await self.stub.CurrentUser(request)
         return convert_user_current_response(response)
-    
-    async def logout_user(self,token: str)->None:
+
+    async def logout_user(self, token: str) -> None:
         request = convert_token_asset_str_request(token)
-        response = await self.stub.LogOutUser(request)
-        print("grpc",flush=True)
+        await self.stub.LogOutUser(request)
+        print("grpc", flush=True)
         return

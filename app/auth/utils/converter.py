@@ -2,8 +2,7 @@ from proto import auth_pb2
 
 from fastapi.responses import JSONResponse
 
-from app.auth.utils.schemas import(
-    CookieResponse,
+from app.auth.utils.schemas import (
     UserCreate,
     Okey,
     Token,
@@ -14,60 +13,54 @@ from app.auth.utils.schemas import(
 )
 
 
-
 def convert_user_create_request(
     user: UserCreate,
-    )->auth_pb2.UserCreateRequest:
+) -> auth_pb2.UserCreateRequest:
     return auth_pb2.UserCreateRequest(
         login=user.login,
         username=user.username,
         email=user.email,
-        password=user.password
+        password=user.password,
     )
+
 
 def convert_token_request(
     token: Token,
-)->auth_pb2.TokenRequest:
+) -> auth_pb2.TokenRequest:
     return auth_pb2.TokenRequest(token_pod=token.access_token)
 
-def convert_token_asset_str_request(
-    token:str
-)->auth_pb2.TokenRequest:
+
+def convert_token_asset_str_request(token: str) -> auth_pb2.TokenRequest:
     return auth_pb2.TokenRequest(token_pod=token)
 
+
 def convert_cookie_request(
-    refresh_token:str,
-)->auth_pb2.CookieRequest:
+    refresh_token: str,
+) -> auth_pb2.CookieRequest:
     return auth_pb2.CookieRequest(refresh_token=refresh_token)
 
+
 def convert_user_login_request(
-    user:UserLogin,
-)->auth_pb2.UserLoginRequest:
-    return auth_pb2.UserLoginRequest(
-            login=user.login,
-            password=user.password
-        )
+    user: UserLogin,
+) -> auth_pb2.UserLoginRequest:
+    return auth_pb2.UserLoginRequest(login=user.login, password=user.password)
+
 
 def convert_user_current_request(
-    token:str,
-)->auth_pb2.UserCurrentRequest:
+    token: str,
+) -> auth_pb2.UserCurrentRequest:
     return auth_pb2.UserCurrentRequest(
         access_token=token,
     )
 
 
-
-
-def convert_okey_response(
-    response
-)->Okey:
+def convert_okey_response(response) -> Okey:
     return Okey(
         success=response.success,
     )
 
-def convert_cookie_response(
-    response
-)->CookieResponse:
+
+def convert_cookie_response(response) -> CookieResponse:
     return CookieResponse(
         access_token=response.access_token,
         key=response.cookie.key,
@@ -78,16 +71,14 @@ def convert_cookie_response(
         max_age=response.cookie.max_age,
     )
 
-def convert_access_token_response(
-    response
-)->AccessToken:
+
+def convert_access_token_response(response) -> AccessToken:
     return AccessToken(
         access_token=response.access_token,
     )
 
-def convert_user_current_response(
-    response
-)->UserCurrent:
+
+def convert_user_current_response(response) -> UserCurrent:
     return UserCurrent(
         id=response.id,
         login=response.login,
@@ -97,10 +88,7 @@ def convert_user_current_response(
     )
 
 
-
-
-
-def converter_cookie(response:CookieResponse)->JSONResponse:
+def converter_cookie(response: CookieResponse) -> JSONResponse:
     result = JSONResponse(content={"access_token": response.access_token})
     result.set_cookie(
         key=response.key,

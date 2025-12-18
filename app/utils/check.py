@@ -1,9 +1,8 @@
 import grpc
 from typing import Any
-from fastapi import HTTPException
 
 
-def check_code(code:Any)->int:
+def check_code(code: Any) -> int:
     if code() == grpc.StatusCode.INVALID_ARGUMENT:
         return 400
     elif code() == grpc.StatusCode.NOT_FOUND:

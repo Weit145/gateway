@@ -8,55 +8,59 @@ from app.post.utils.schemas import (
     CreatePost,
     UpdatePost,
 )
-from app.utils.check import(
+from app.utils.check import (
     check_code,
 )
 
-class PostGateWay(IPostGateWay):
 
-    async def create_post_end_point(self, current_user: UserCurrent, new_post: CreatePost) -> OutPost:
+class PostGateWay(IPostGateWay):
+    async def create_post_end_point(
+        self, current_user: UserCurrent, new_post: CreatePost
+    ) -> OutPost:
         try:
             response = await PostService().create_post_end_point(current_user, new_post)
         except grpc.RpcError as e:
-            raise HTTPException(status_code=check_code(e.code), 
-                            detail=e.details())
+            raise HTTPException(status_code=check_code(e.code), detail=e.details())
         return response
 
-    async def delete_postdb_by_id_end_point(self, current_user: UserCurrent, post_id: int) -> None:
+    async def delete_postdb_by_id_end_point(
+        self, current_user: UserCurrent, post_id: int
+    ) -> None:
         try:
-            response = await PostService().delete_postdb_by_id_end_point(current_user, post_id)
+            await PostService().delete_postdb_by_id_end_point(current_user, post_id)
         except grpc.RpcError as e:
-            raise HTTPException(status_code=check_code(e.code), 
-                            detail=e.details())
-        
-    async def get_posts_end_point(self, limit: int, last_id:int) -> list[OutPost]:
+            raise HTTPException(status_code=check_code(e.code), detail=e.details())
+
+    async def get_posts_end_point(self, limit: int, last_id: int) -> list[OutPost]:
         try:
             response = await PostService().get_posts_end_point(limit, last_id)
         except grpc.RpcError as e:
-            raise HTTPException(status_code=check_code(e.code), 
-                            detail=e.details())
+            raise HTTPException(status_code=check_code(e.code), detail=e.details())
         return response
-    
+
     async def get_by_id_post_end_point(self, post_id: int) -> OutPost:
         try:
             response = await PostService().get_by_id_post_end_point(post_id)
         except grpc.RpcError as e:
-            raise HTTPException(status_code=check_code(e.code), 
-                            detail=e.details())
+            raise HTTPException(status_code=check_code(e.code), detail=e.details())
         return response
-    
-    async def get_by_username_post_end_point(self, username: str, id:int) -> list[OutPost]:
+
+    async def get_by_username_post_end_point(
+        self, username: str, id: int
+    ) -> list[OutPost]:
         try:
-            response = await PostService().get_by_username_post_end_point(username,id)
+            response = await PostService().get_by_username_post_end_point(username, id)
         except grpc.RpcError as e:
-            raise HTTPException(status_code=check_code(e.code), 
-                            detail=e.details())
+            raise HTTPException(status_code=check_code(e.code), detail=e.details())
         return response
-    
-    async def update_post_end_point(self, current_user: UserCurrent, post_id: int, updated_post: UpdatePost) -> OutPost:
+
+    async def update_post_end_point(
+        self, current_user: UserCurrent, post_id: int, updated_post: UpdatePost
+    ) -> OutPost:
         try:
-            response = await PostService().update_post_end_point(current_user, post_id, updated_post)
+            response = await PostService().update_post_end_point(
+                current_user, post_id, updated_post
+            )
         except grpc.RpcError as e:
-            raise HTTPException(status_code=check_code(e.code), 
-                            detail=e.details())
+            raise HTTPException(status_code=check_code(e.code), detail=e.details())
         return response

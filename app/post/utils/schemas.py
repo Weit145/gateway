@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
 
 class PostBase(BaseModel):
@@ -17,4 +17,3 @@ class UpdatePost(PostBase):
 class OutPost(PostBase):
     username: str
     id: int
-    

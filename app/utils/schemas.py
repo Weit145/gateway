@@ -1,12 +1,9 @@
-from typing import Annotated
-
-from annotated_types import MaxLen, MinLen
-from pydantic import BaseModel, ConfigDict, EmailStr
+from pydantic import BaseModel
 
 
 class UserCurrent(BaseModel):
-    id:int
-    login:str
-    is_active:bool
-    is_verified:bool
-    role:str
+    id: int
+    login: str
+    is_active: bool
+    is_verified: bool
+    role: str

@@ -12,7 +12,6 @@ from app.auth import router as auth_router
 from app.admin import router as admin_router
 
 
-
 app = FastAPI()
 
 app.add_middleware(
@@ -23,6 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.middleware("http")
 async def rate_limit_middleware(request: Request, call_next):
     allowed = await RedisRepository().rate_limit(request)
@@ -31,11 +31,10 @@ async def rate_limit_middleware(request: Request, call_next):
     return await call_next(request)
 
 
-app.include_router(user_router,prefix="/user", tags=["User"])
-app.include_router(post_router,prefix="/post", tags=["Post"])
-app.include_router(auth_router,prefix="/auth", tags=["Auth"])
-app.include_router(admin_router,prefix="/admin", tags=["Admin"])
-
+app.include_router(user_router, prefix="/user", tags=["User"])
+app.include_router(post_router, prefix="/post", tags=["Post"])
+app.include_router(auth_router, prefix="/auth", tags=["Auth"])
+app.include_router(admin_router, prefix="/admin", tags=["Admin"])
 
 
 if __name__ == "__main__":
@@ -46,8 +45,8 @@ if __name__ == "__main__":
     # git submodule add https://github.com/Weit145/proto-repo proto
     # git submodule update --init --recursive --remote
 
-    #poetry run python -m grpc_tools.protoc     -I proto     --python_out=proto     --grpc_python_out=proto     proto/auth/auth.proto 
-    # poetry run python -m grpc_tools.protoc     -I proto     --python_out=proto     --grpc_python_out=proto     proto/user/user.proto 
+    # poetry run python -m grpc_tools.protoc     -I proto     --python_out=proto     --grpc_python_out=proto     proto/auth/auth.proto
+    # poetry run python -m grpc_tools.protoc     -I proto     --python_out=proto     --grpc_python_out=proto     proto/user/user.proto
     # docker compose exec auth-service /bin/sh
     # # внутри контейнера
     # alembic upgrade head

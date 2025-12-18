@@ -2,14 +2,14 @@ from fastapi import Request
 
 from app.core.redis.rd_hellper import rd_helper
 
-class RedisRepository:
 
-    async def rate_limit(self,request:Request):
+class RedisRepository:
+    async def rate_limit(self, request: Request):
         ip = request.client.host
         limit_conf = await rd_helper.get_limit(request)
         if not limit_conf:
-            return  True
-        
+            return True
+
         limit, window = limit_conf
         key = f"rate:{request.method}:{request.url.path}:{ip}"
 

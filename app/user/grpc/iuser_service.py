@@ -6,8 +6,8 @@ from app.user.utils.schemas import (
 )
 from app.utils.schemas import UserCurrent
 
-class IUserService(ABC):
 
+class IUserService(ABC):
     @abstractmethod
     def __init__(self, host: str, port: int) -> None:
         pass
@@ -19,7 +19,9 @@ class IUserService(ABC):
     @abstractmethod
     async def read_me_user_end_point(self, current_user: UserCurrent) -> OutUser:
         pass
-        
+
     @abstractmethod
-    async def update_me_end_point(self, current_user: UserCurrent, new_user: UserUpdate) -> OutUser:
+    async def update_me_end_point(
+        self, current_user: UserCurrent, new_user: UserUpdate
+    ) -> OutUser:
         pass
