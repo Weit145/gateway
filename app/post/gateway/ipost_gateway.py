@@ -26,7 +26,7 @@ class IPostGateWay(ABC):
         pass
 
     @abstractmethod
-    async def get_by_username_post_end_point(
+    async def get_by_user_id_post_end_point(
         self, username: str, id: int
     ) -> list[OutPost]:
         pass

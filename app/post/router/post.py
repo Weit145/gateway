@@ -28,11 +28,11 @@ async def delete_postdb_by_id_end_point(
 
 
 @router.get("/user/", status_code=status.HTTP_200_OK)
-async def get_by_username_post_end_point(
+async def get_by_user_id_post_end_point(
     current_user: Annotated[UserCurrent, Depends(get_current_user)],
     username: str = Query(..., title="Username"),
 ) -> list[OutPost]:
-    return await PostGateWay().get_by_username_post_end_point(username, current_user.id)
+    return await PostGateWay().get_by_user_id_post_end_point(username, current_user.id)
 
 
 @router.get("/group/", status_code=status.HTTP_200_OK)
