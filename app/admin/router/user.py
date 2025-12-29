@@ -1,22 +1,26 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Path, status
+from fastapi import APIRouter, status, Depends, Path
+
+from app.utils.user_current import get_admin_user
+from app.utils.schemas import UserCurrent
+
+from app.admin.gateway.admin_gateway import AdminGateWay
 
 router = APIRouter(prefix="/user")
 
 
-@router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_all_users_end_point() -> None:
-    return
-
-
-@router.delete("/nocomfirm/", status_code=status.HTTP_204_NO_CONTENT)
-async def dellete_all_no_comfirm_users_end_point() -> None:
-    return
-
-
-@router.get("/{user_id}/", status_code=status.HTTP_200_OK)
-async def get_user_by_id_end_point(
-    user_id: Annotated[int, Path(ge=1)],
+@router.delete("/{user_id}/", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user_end_point(
+    current_admin: Annotated[UserCurrent, Depends(get_admin_user)],
+    user_id: Annotated[int, Path(title="The ID of the user to delete")],
 ) -> None:
-    return
+    return await AdminGateWay().delete_user_end_point(current_admin,user_id)
+
+
+@router.put("/{user_id}/", status_code=status.HTTP_200_OK)
+async def ban_user_end_point(
+    current_admin: Annotated[UserCurrent, Depends(get_admin_user)],
+    user_id: Annotated[int, Path(title="The ID of the user to ban")],
+) -> None:
+    return await AdminGateWay().ban_user_end_point(current_admin,user_id)

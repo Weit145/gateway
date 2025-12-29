@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import Depends
+from fastapi import Depends, HTTPException, status
 
 from fastapi.security import OAuth2PasswordBearer
 
@@ -14,4 +14,12 @@ async def get_current_user(
     login: Annotated[str, Depends(oauth2_scheme)],
 ) -> UserCurrent:
     response = await AuthGateWay().current_user(login)
+    return converter_UserCurrent(response)
+
+async def get_admin_user(
+    login:Annotated[str, Depends(oauth2_scheme)],
+)-> UserCurrent:
+    response = await AuthGateWay().current_user(login)
+    if response.role != "admin":
+        raise HTTPException(status_code=status.HTTP_405_METHOD_NOT_ALLOWED, detail="Not allowed")
     return converter_UserCurrent(response)
