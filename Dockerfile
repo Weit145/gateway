@@ -1,25 +1,31 @@
+# Используем Python на базе Debian Bookworm (стабильнее для РФ)
 FROM python:3.12-slim
 
-# Системные зависимости
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential libpq-dev curl ca-certificates \
+# Системные зависимости с российским зеркалом
+RUN find /etc/apt/sources.list.d/ -type f -name "*.sources" -exec sed -i \
+    -e 's|http://deb.debian.org/debian|https://mirror.yandex.ru/debian|g' \
+    -e 's|http://security.debian.org/debian-security|https://mirror.yandex.ru/debian-security|g' {} \; && \
+    apt-get update && apt-get install -y --no-install-recommends \
+        build-essential libpq-dev curl ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Poetry
 RUN pip install --no-cache-dir poetry==2.2.1
 
+# Зеркало PyPI (Яндекс — самое быстрое и стабильное)
+ENV POETRY_PYPI_MIRROR_URL=https://mirror.yandex.ru/mirrors/pypi/simple/
+
 WORKDIR /app
 
 # Копируем зависимости
-COPY gateway/pyproject.toml gateway/poetry.lock* ./
-RUN poetry config virtualenvs.create false && poetry install --no-root
+COPY pyproject.toml poetry.lock* ./
 
-# Копируем код приложения **в корень /app**
-COPY gateway/app ./app
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-root
 
-# Копируем proto из auth-service
-COPY gateway/proto ./proto
+# Копируем код
+COPY . .
 
 ENV PYTHONPATH="${PYTHONPATH}:/app/proto"
-# Запуск FastAPI
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+CMD ["poetry", "run", "python", "app/main.py"]
