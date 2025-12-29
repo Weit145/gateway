@@ -16,13 +16,13 @@ class AdminService(IAdminService):
         self.stub = admin_pb2_grpc.AdminStub(self.channel)
 
     async def delete_user_end_point(self, current_admin: UserCurrent, user_id: int) -> None:
-        request = convert_delete_user(user_id)
+        request = convert_delete_user(id = user_id)
         await self.stub.DeleteUser(request)
 
     async def ban_user_end_point(self, current_admin: UserCurrent, user_id: int) -> None:
-        request = convert_ban_user(user_id)
+        request = convert_ban_user(id = user_id)
         await self.stub.BanUser(request)
 
     async def delete_post_end_point(self, current_admin: UserCurrent, post_id: int) -> None:
-        request = convert_delete_post(post_id)
+        request = convert_delete_post(id = post_id)
         await self.stub.DeletePost(request)
