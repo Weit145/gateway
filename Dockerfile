@@ -25,7 +25,7 @@ WORKDIR /app
 COPY pyproject.toml poetry.lock* ./
 
 # Устанавливаем ТОЛЬКО зависимости (без установки самого проекта)
-RUN poetry install --only main --no-interaction --no-ansi
+RUN poetry install --no-root --only main --no-interaction --no-ansi
 
 # Теперь копируем весь код (необязательно, т.к. volume в compose, но на всякий случай)
 COPY . .
