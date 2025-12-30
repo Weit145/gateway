@@ -13,7 +13,8 @@ RUN find /etc/apt/sources.list.d/ -type f -name "*.sources" -exec sed -i \
 RUN pip install --no-cache-dir poetry==2.2.1
 
 # Зеркало PyPI Яндекса
-ENV POETRY_PYPI_MIRROR_URL=https://mirror.yandex.ru/mirrors/pypi/simple/
+# ENV POETRY_PYPI_MIRROR_URL=https://mirror.yandex.ru/mirrors/pypi/simple/
+
 
 # Отключаем виртуальное окружение
 RUN poetry config virtualenvs.create false
@@ -24,9 +25,13 @@ WORKDIR /app
 # Копируем файлы зависимостей
 COPY pyproject.toml poetry.lock* ./
 
+RUN poetry source add --priority=default yandex https://mirror.yandex.ru/pypi/simple/
+
 # Устанавливаем ТОЛЬКО зависимости (без установки самого проекта)
-RUN poetry config virtualenvs.create false \
-    && poetry install --no-root --no-interaction --no-ansi
+# RUN poetry config virtualenvs.create false \
+#     && poetry install --no-root --no-interaction --no-ansi
+
+RUN poetry install --no-root --no-interaction --no-ansi
 
 # Теперь копируем весь код (необязательно, т.к. volume в compose, но на всякий случай)
 COPY . .
