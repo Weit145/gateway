@@ -1,6 +1,5 @@
 from proto import admin_pb2
 
-from fastapi.responses import JSONResponse
 
 
 def convert_delete_post(id:int)->admin_pb2.DeletePostRequest:
