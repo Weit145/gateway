@@ -4,6 +4,8 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from fastapi import APIRouter
+
 from app.core.redis.repositories.redis_repositories import RedisRepository
 
 from app.user import router as user_router
@@ -31,10 +33,19 @@ async def rate_limit_middleware(request: Request, call_next):
     return await call_next(request)
 
 
-app.include_router(user_router, prefix="/user", tags=["User"])
-app.include_router(post_router, prefix="/post", tags=["Post"])
-app.include_router(auth_router, prefix="/auth", tags=["Auth"])
-app.include_router(admin_router, prefix="/admin", tags=["Admin"])
+api_router = APIRouter(prefix="/api")
+
+api_router.include_router(user_router, prefix="/user", tags=["User"])
+api_router.include_router(post_router, prefix="/post", tags=["Post"])
+api_router.include_router(auth_router, prefix="/auth", tags=["Auth"])
+api_router.include_router(admin_router, prefix="/admin", tags=["Admin"])
+
+app.include_router(api_router)
+
+# app.include_router(user_router, prefix="/user", tags=["User"])
+# app.include_router(post_router, prefix="/post", tags=["Post"])
+# app.include_router(auth_router, prefix="/auth", tags=["Auth"])
+# app.include_router(admin_router, prefix="/admin", tags=["Admin"])
 
 
 if __name__ == "__main__":
