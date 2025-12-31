@@ -30,59 +30,7 @@ RUN poetry config virtualenvs.create false \
 
 # Теперь копируем весь код (необязательно, т.к. volume в compose, но на всякий случай)
 COPY gateway/proto ./proto
-events {}
 
-http {
-    include mime.types;
-    sendfile on;
-
-    # ===== HTTP → HTTPS (и для Certbot challenge) =====
-    server {
-        listen 80;
-        server_name kload.ru www.kload.ru;
-
-        location /.well-known/acme-challenge/ {
-            root /var/www/certbot;
-        }
-
-        location / {
-            return 301 https://$host$request_uri;
-        }
-    }
-
-    # ===== HTTPS =====
-    server {
-        listen 443 ssl;
-        server_name kload.ru www.kload.ru;
-
-        ssl_certificate /etc/letsencrypt/live/kload.ru/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/kload.ru/privkey.pem;
-
-        ssl_protocols TLSv1.2 TLSv1.3;
-        ssl_prefer_server_ciphers on;
-        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
-        add_header X-Frame-Options DENY;
-        add_header X-Content-Type-Options nosniff;
-
-        # Фронтенд (SPA)
-        location / {
-            proxy_pass http://frontend:80;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        # API через gateway
-        location /api/ {
-            proxy_pass http://gateway:8000;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-    }
-}
 # PYTHONPATH для proto
 ENV PYTHONPATH="${PYTHONPATH}:/app/proto"
 
