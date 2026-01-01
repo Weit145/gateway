@@ -4,6 +4,8 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from fastapi import APIRouter
+
 from app.core.redis.repositories.redis_repositories import RedisRepository
 
 from app.user import router as user_router
@@ -31,25 +33,16 @@ async def rate_limit_middleware(request: Request, call_next):
     return await call_next(request)
 
 
-app.include_router(user_router, prefix="/user", tags=["User"])
-app.include_router(post_router, prefix="/post", tags=["Post"])
-app.include_router(auth_router, prefix="/auth", tags=["Auth"])
-app.include_router(admin_router, prefix="/admin", tags=["Admin"])
+api_router = APIRouter(prefix="/api")
+
+api_router.include_router(user_router, prefix="/user", tags=["User"])
+api_router.include_router(post_router, prefix="/post", tags=["Post"])
+api_router.include_router(auth_router, prefix="/auth", tags=["Auth"])
+api_router.include_router(admin_router, prefix="/admin", tags=["Admin"])
+
+app.include_router(api_router)
+
 
 
 if __name__ == "__main__":
     uvicorn.run("app.main:app", reload=True)
-
-    # poetry run python app/main.py
-    # docker compose up --build
-    # git submodule add https://github.com/Weit145/proto-repo proto
-    # git submodule update --init --recursive --remote
-
-    # poetry run python -m grpc_tools.protoc     -I proto     --python_out=proto     --grpc_python_out=proto     proto/auth/auth.proto
-    # poetry run python -m grpc_tools.protoc     -I proto     --python_out=proto     --grpc_python_out=proto     proto/user/user.proto
-    # docker compose exec auth-service /bin/sh
-    # # внутри контейнера
-    # alembic upgrade head
-
-    # docker exec -it kafka bash
-    # kafka-console-consumer --bootstrap-server localhost:9092 --topic registration
