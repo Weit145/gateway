@@ -42,6 +42,13 @@ api_router.include_router(admin_router, prefix="/admin", tags=["Admin"])
 
 app.include_router(api_router)
 
+<<<<<<< HEAD
+=======
+# app.include_router(user_router, prefix="/user", tags=["User"])
+# app.include_router(post_router, prefix="/post", tags=["Post"])
+# app.include_router(auth_router, prefix="/auth", tags=["Auth"])
+# app.include_router(admin_router, prefix="/admin", tags=["Admin"])
+>>>>>>> 317628890ff098f8310c355a5bff380bea2512d0
 
 
 if __name__ == "__main__":

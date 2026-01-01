@@ -1,31 +1,38 @@
-# Используем Python на базе Debian Bookworm (стабильнее для РФ)
+# Базовый образ
 FROM python:3.12-slim
 
-# Системные зависимости с российским зеркалом
+# Российские зеркала для apt
 RUN find /etc/apt/sources.list.d/ -type f -name "*.sources" -exec sed -i \
     -e 's|http://deb.debian.org/debian|https://mirror.yandex.ru/debian|g' \
     -e 's|http://security.debian.org/debian-security|https://mirror.yandex.ru/debian-security|g' {} \; && \
     apt-get update && apt-get install -y --no-install-recommends \
-        build-essential libpq-dev curl ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+    build-essential libpq-dev curl ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
-# Poetry
+# Устанавливаем Poetry
 RUN pip install --no-cache-dir poetry==2.2.1
 
-# Зеркало PyPI (Яндекс — самое быстрое и стабильное)
+# Зеркало PyPI Яндекса
 ENV POETRY_PYPI_MIRROR_URL=https://mirror.yandex.ru/mirrors/pypi/simple/
 
+# Отключаем виртуальное окружение
+RUN poetry config virtualenvs.create false
+
+# Рабочая директория
 WORKDIR /app
 
-# Копируем зависимости
-COPY pyproject.toml poetry.lock* ./
+# Копируем файлы зависимостей
+COPY gateway/pyproject.toml gateway/poetry.lock* ./
 
+# Устанавливаем ТОЛЬКО зависимости (без установки самого проекта)
 RUN poetry config virtualenvs.create false \
-    && poetry install --no-root
+    && poetry install --no-root --no-interaction --no-ansi
 
-# Копируем код
-COPY . .
+# Теперь копируем весь код (необязательно, т.к. volume в compose, но на всякий случай)
+COPY gateway/proto ./proto
 
+# PYTHONPATH для proto
 ENV PYTHONPATH="${PYTHONPATH}:/app/proto"
 
-CMD ["poetry", "run", "python", "app/main.py"]
+# Запуск Uvicorn
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers" , "--forwarded-allow-ips", "*"]
